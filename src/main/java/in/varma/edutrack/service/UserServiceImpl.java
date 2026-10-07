@@ -60,18 +60,21 @@ public class UserServiceImpl implements UserService{
 
 
     @Override
-    public boolean rigisterUser(UserRegisterDto urDto) {
+    public boolean rigisterUser(UserRegisterDto userDto) {
 
-        if (userRepo.existsByEmail(urDto.getEmail())) {
+        if (userRepo.existsByEmail(userDto.getEmail())) {
             return false;
         }
 
-        UserEntity userEntity = mapper.map(urDto, UserEntity.class);
+        UserEntity userEntity = mapper.map(userDto, UserEntity.class);
 
         String tempPwd = RandomPasswordGenerator.randomPassword(6);
 
         userEntity.setTempPwd(tempPwd);
         userEntity.setPwdUpdated("NO");
+        CountryEntity country = countryRepo.findById(userDto.getCountryId()).orElseThrow();
+        StateEntity state = stateRepo.findById(userDto.getStateId()).orElseThrow();
+        CityEntity city = cityRepo.findById(userDto.getCityId()).orElseThrow();
 
         UserEntity savedUser = userRepo.save(userEntity);
 

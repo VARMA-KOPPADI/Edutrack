@@ -9,10 +9,6 @@ public class UserRegisterDto {
 
     private String email;
 
-    private String tempPwd;
-
-    private String pwdUpdated;
-
     private Long phno;
 
     private Integer countryId;
