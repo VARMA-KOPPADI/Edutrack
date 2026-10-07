@@ -1,0 +1,20 @@
+package in.varma.edutrack.config;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+
+@Configuration
+public class AppConfig {
+
+    @Bean
+    public ModelMapper getInstance(){
+        return new ModelMapper();
+    }
+
+    @Bean
+    public RestTemplate getRestTamplate(){
+        return new RestTemplate();
+    }
+}
