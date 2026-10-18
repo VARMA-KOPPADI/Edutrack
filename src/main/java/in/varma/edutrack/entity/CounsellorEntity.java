@@ -9,20 +9,20 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 
 @Entity
-@Table(name="user_master")
+@Table(name="counsellor_master")
 @Setter
 @Getter
-public class UserEntity {
+public class CounsellorEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
+    private Integer counsellorId;
 
     private String name;
 
     private String email;
 
-    private String tempPwd;
+    private String Pwd;
 
     private String pwdUpdated;
 

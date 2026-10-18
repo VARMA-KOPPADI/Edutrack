@@ -3,7 +3,7 @@ package in.varma.edutrack.dto;
 import lombok.Data;
 
 @Data
-public class UserRegisterDto {
+public class CounsellorRegisterDto {
 
     private String name;
 

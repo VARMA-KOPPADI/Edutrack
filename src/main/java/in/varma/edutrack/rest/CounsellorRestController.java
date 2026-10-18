@@ -1,11 +1,8 @@
 package in.varma.edutrack.rest;
 
 import in.varma.edutrack.apiResponce.ApiResponse;
-import in.varma.edutrack.dto.CityDto;
-import in.varma.edutrack.dto.CountryDto;
-import in.varma.edutrack.dto.StateDto;
-import in.varma.edutrack.dto.UserRegisterDto;
-import in.varma.edutrack.service.UserService;
+import in.varma.edutrack.dto.*;
+import in.varma.edutrack.service.CounsellorService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -17,9 +14,10 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @Slf4j
-public class UserRestController {
+public class CounsellorRestController {
 
-    private UserService userService;
+    private CounsellorService counsellorService;
+
 
     @GetMapping("/countries")
     public ResponseEntity<ApiResponse<List<CountryDto>>> getCountries() {
@@ -27,7 +25,7 @@ public class UserRestController {
         log.debug("execution started");
 
         ApiResponse<List<CountryDto>> response = new ApiResponse<>();
-        List<CountryDto> countries = userService.getCountries();
+        List<CountryDto> countries = counsellorService.getCountries();
         if (countries.isEmpty()) {
             response.setStatus(500);
             response.setMessage("No countries found");
@@ -45,7 +43,7 @@ public class UserRestController {
     @GetMapping("/states/{countryId}")
     public ResponseEntity<ApiResponse<List<StateDto>>> getStates(@PathVariable Integer countryId) {
         ApiResponse<List<StateDto>> response = new ApiResponse<>();
-        List<StateDto> states = userService.getStates(countryId);
+        List<StateDto> states = counsellorService.getStates(countryId);
         if (states.isEmpty()) {
             response.setStatus(500);
             response.setMessage("No States Found");
@@ -62,7 +60,7 @@ public class UserRestController {
     @GetMapping("/cities/{stateId}")
     public ResponseEntity<ApiResponse<List<CityDto>>> getCities(@PathVariable Integer stateId) {
         ApiResponse<List<CityDto>> response = new ApiResponse<>();
-        List<CityDto> cities = userService.getCities(stateId);
+        List<CityDto> cities = counsellorService.getCities(stateId);
         if (cities.isEmpty()) {
             response.setStatus(500);
             response.setMessage("No Cities Found");
@@ -77,10 +75,10 @@ public class UserRestController {
     }
 
 
-    @PostMapping("/UserRegister")
-    public ResponseEntity<ApiResponse<String>> registerUser(@RequestBody UserRegisterDto dto) {
+    @PostMapping("/CounsellorRegister")
+    public ResponseEntity<ApiResponse<String>> registerCounsellor(@RequestBody CounsellorRegisterDto dto) {
         ApiResponse<String> responce = new ApiResponse<>();
-        if (userService.rigisterUser(dto)) {
+        if (counsellorService.registerCounsellor(dto)) {
             responce.setStatus(200);
             responce.setMessage("Registration Successful");
             responce.setData("Success");
@@ -93,4 +91,46 @@ public class UserRestController {
         return new ResponseEntity<>(responce, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<ApiResponse<CounsellorDto>> loginUser(@RequestBody LogInDto loginDto) {
+
+        CounsellorDto counsellorDto = counsellorService.loginCounsellor(loginDto);
+
+        ApiResponse<CounsellorDto> response = new ApiResponse<>();
+
+        if (counsellorDto != null) {
+            response.setStatus(200);
+            response.setMessage("Login Successful");
+            response.setData(counsellorDto);
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        response.setStatus(401);
+        response.setMessage("Invalid Email or Password");
+        response.setData(null);
+
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<ApiResponse<String>> resetPassword(
+            @RequestBody ResetPasswordDto resetDto) {
+
+        ApiResponse<String> response = new ApiResponse<>();
+
+        if (counsellorService.resetPassword(resetDto)) {
+            response.setStatus(200);
+            response.setMessage("Password Reset Successful");
+            response.setData("Success");
+
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        }
+
+        response.setStatus(400);
+        response.setMessage("Password Reset Failed. Check email or password confirmation.");
+        response.setData("Failed");
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
 }
