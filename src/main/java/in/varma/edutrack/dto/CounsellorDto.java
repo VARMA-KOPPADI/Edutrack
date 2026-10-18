@@ -1,13 +1,7 @@
 package in.varma.edutrack.dto;
 
-import in.varma.edutrack.entity.CityEntity;
-import in.varma.edutrack.entity.CountryEntity;
-import in.varma.edutrack.entity.StateEntity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+
 import lombok.Data;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
@@ -26,11 +20,11 @@ public class CounsellorDto {
 
     private Long phno;
 
-    private CountryEntity country;
+    private Integer country;
 
-    private StateEntity state;
+    private Integer state;
 
-    private CityEntity city;
+    private Integer city;
 
     private LocalDate createdAt;
 
