@@ -7,5 +7,5 @@ public class LogInDto {
 
     private String email;
 
-    private String Password;
+    private String password;
 }

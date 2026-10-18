@@ -3,14 +3,18 @@ package in.varma.edutrack.dto;
 import in.varma.edutrack.entity.CityEntity;
 import in.varma.edutrack.entity.CountryEntity;
 import in.varma.edutrack.entity.StateEntity;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
 @Data
 public class CounsellorDto {
 
-    private Integer userId;
+    private Integer counsellorId;
 
     private String name;
 
